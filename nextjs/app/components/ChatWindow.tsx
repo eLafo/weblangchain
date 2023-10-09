@@ -314,7 +314,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              When should I fine tune a model, when should I train my own model or when I should just use Retrieval Augmented Generation (RAG)
+              How AI transformers work?
             </div>
             <div
               onMouseUp={(e) =>
