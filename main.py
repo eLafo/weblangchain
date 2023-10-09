@@ -151,8 +151,8 @@ class BackupRetriever(BaseRetriever):
 
 
 def get_base_retriever():
-    # return TavilySearchAPIRetriever(k=6, include_raw_content=True, include_images=True)
-    return BackupRetriever()
+    return TavilySearchAPIRetriever(k=6, include_raw_content=True, include_images=True)
+    # return BackupRetriever()
 
 
 def _get_retriever():
