@@ -296,7 +296,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              What's the state of the art in AI Tools for companies?
+              What&apos;s the state of the art in AI Tools for companies?
             </div>
           </div>
           <div className="flex grow justify-center w-full mt-4">
@@ -322,7 +322,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              What's Retrieval Augmented Generation (RAG)?
+              What&apos;s Retrieval Augmented Generation (RAG)?
             </div>
           </div>
         </div>
