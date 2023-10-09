@@ -2,7 +2,6 @@
 import asyncio
 from operator import itemgetter
 from typing import Dict, List, Optional, Sequence
-
 import langsmith
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,6 +30,10 @@ from langchain.utilities import GoogleSearchAPIWrapper
 from langserve import add_routes
 from langsmith import Client
 from typing_extensions import TypedDict
+
+import chromadb
+from chromadb.config import Settings
+from langchain.vectorstores import Chroma
 
 RESPONSE_TEMPLATE = """\
 You are an expert researcher and writer, tasked with answering any question.
@@ -149,11 +152,20 @@ class BackupRetriever(BaseRetriever):
                 docs[i].metadata["title"] = search_results[i]["title"]
         return docs
 
+def get_chroma_retriever():
+    client = chromadb.HttpClient(settings=Settings(allow_reset=True), host="localhost", port="8000")
+    collection_name = "documents"
+
+    vectorstore = Chroma(client=client, collection_name=collection_name, embedding_function=OpenAIEmbeddings())
+    retriever = vectorstore.as_retriever()
+
+    return retriever
+    
 
 def get_base_retriever():
-    # return TavilySearchAPIRetriever(k=6, include_raw_content=True, include_images=True)
-    return BackupRetriever()
-
+    return TavilySearchAPIRetriever(k=6, include_raw_content=True, include_images=True)
+    # return BackupRetriever()
+    # return get_chroma_retriever()
 
 def _get_retriever():
     embeddings = OpenAIEmbeddings()

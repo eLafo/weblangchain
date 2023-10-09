@@ -18,6 +18,7 @@ langserve = "0.0.6"
 sse-starlette = "^1.6.5"
 google-api-python-client = "^2.102.0"
 html2text = "^2020.1.16"
+chromadb = "^0.4.13"
 
 
 [tool.poetry.group.dev.dependencies]
