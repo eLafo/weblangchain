@@ -32,6 +32,11 @@ from langserve import add_routes
 from langsmith import Client
 from typing_extensions import TypedDict
 
+# dotenv
+from dotenv import load_dotenv
+
+load_dotenv()
+
 RESPONSE_TEMPLATE = """\
 You are an expert researcher and writer, tasked with answering any question.
 
