@@ -272,7 +272,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              what is langchain?
+              What is an LLM?
             </div>
             <div
               onMouseUp={(e) =>
@@ -280,7 +280,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              history of mesopotamia
+              History of AI
             </div>
             <div
               onMouseUp={(e) =>
@@ -288,7 +288,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              how to build a discord bot
+              How much does training a foundational model cost?
             </div>
             <div
               onMouseUp={(e) =>
@@ -296,7 +296,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              leonardo dicaprio girlfriend
+              What's the state of the art in AI Tools for companies?
             </div>
           </div>
           <div className="flex grow justify-center w-full mt-4">
@@ -306,7 +306,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              fun gift ideas for software engineers
+              Fun proof of concepts with LLMs
             </div>
             <div
               onMouseUp={(e) =>
@@ -314,7 +314,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              how does a prism separate light
+              When should I fine tune a model, when should I train my own model or when I should just use Retrieval Augmented Generation (RAG)
             </div>
             <div
               onMouseUp={(e) =>
@@ -322,7 +322,7 @@ export function ChatWindow(props: {
               }
               className="bg-stone-700 px-2 py-1 mx-2 rounded cursor-pointer justify-center text-stone-200 hover:bg-stone-500"
             >
-              what bear is best
+              What's Retrieval Augmented Generation (RAG)?
             </div>
           </div>
         </div>
@@ -330,7 +330,7 @@ export function ChatWindow(props: {
         ""
       )}
 
-      {messages.length === 0 ? (
+      {messages.length === 0 && false? (
         <footer className="flex justify-center absolute bottom-8">
           <a
             href="https://github.com/langchain-ai/weblangchain"
