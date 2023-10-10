@@ -7,9 +7,7 @@ from langserve import add_routes
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from langsmith import Client
-from app.chains import create_chain
-from app.retrievers import contextual_compression_retriever
-from app.llm import llm
+from app.chains import researcher
 from app.models import ChatRequest
 
 client = Client()
@@ -23,9 +21,8 @@ api.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
-chain = create_chain(llm, contextual_compression_retriever)
 
-add_routes(api, chain, path="/chat", input_type=ChatRequest)
+add_routes(api, researcher, path="/chat", input_type=ChatRequest)
 
 # TODO: Update when async API is available
 async def _arun(func, *args, **kwargs):
