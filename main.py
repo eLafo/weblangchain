@@ -1,5 +1,4 @@
 """Main entrypoint for the app."""
-from langchain.chat_models import ChatOpenAI
 
 # Backup
 from langserve import add_routes
@@ -7,18 +6,12 @@ from app import api
 from app.models import ChatRequest
 from app.retrievers import contextual_compression_retriever
 from app.chains import create_chain
+from app.llm import llm
 
 # dotenv
 from dotenv import load_dotenv
 
 load_dotenv()
-
-llm = ChatOpenAI(
-    model="gpt-3.5-turbo-16k",
-    # model="gpt-4",
-    streaming=True,
-    temperature=0,
-)
 
 chain = create_chain(llm, contextual_compression_retriever)
 
