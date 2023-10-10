@@ -1,6 +1,6 @@
 """Main entrypoint for the app."""
 from operator import itemgetter
-from typing import Dict, List, Optional, Sequence
+from typing import Sequence
 
 from langchain.chat_models import ChatOpenAI
 
@@ -14,8 +14,7 @@ from langchain.schema.runnable import (Runnable, RunnableBranch,
                                        RunnableLambda, RunnableMap)
 # Backup
 from langserve import add_routes
-from typing_extensions import TypedDict
-
+from models import ChatRequest
 from prompts import rephrase_template, response_template, chat_prompt_template
 from api import api as app
 from retrievers import contextual_compression_retriever
@@ -23,11 +22,6 @@ from retrievers import contextual_compression_retriever
 from dotenv import load_dotenv
 
 load_dotenv()
-
-class ChatRequest(TypedDict):
-    question: str
-    chat_history: Optional[List[Dict[str, str]]]
-    # conversation_id: Optional[str]
 
 def create_retriever_chain(
     llm: BaseLanguageModel, retriever: BaseRetriever
