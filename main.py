@@ -1,10 +1,10 @@
 """Main entrypoint for the app."""
-from app import api
-
 # dotenv
 from dotenv import load_dotenv
 
 load_dotenv()
+
+from app import api
 
 if __name__ == "__main__":
     import uvicorn
