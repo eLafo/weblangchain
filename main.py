@@ -1,17 +1,9 @@
 """Main entrypoint for the app."""
-import os
 from operator import itemgetter
 from typing import Dict, List, Optional, Sequence
 
-from langchain.callbacks.manager import CallbackManagerForRetrieverRun
 from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import AsyncHtmlLoader
-from langchain.document_transformers import Html2TextTransformer
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.retrievers import (ContextualCompressionRetriever,
-                                  TavilySearchAPIRetriever)
-from langchain.retrievers.document_compressors import (
-    DocumentCompressorPipeline, EmbeddingsFilter)
+
 from langchain.schema import Document
 from langchain.schema.document import Document
 from langchain.schema.language_model import BaseLanguageModel
@@ -20,15 +12,13 @@ from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.retriever import BaseRetriever
 from langchain.schema.runnable import (Runnable, RunnableBranch,
                                        RunnableLambda, RunnableMap)
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 # Backup
-from langchain.utilities import GoogleSearchAPIWrapper
 from langserve import add_routes
 from typing_extensions import TypedDict
 
 from prompts import rephrase_template, response_template, chat_prompt_template
 from api import api as app
-
+from retrievers import contextual_compression_retriever
 # dotenv
 from dotenv import load_dotenv
 
@@ -38,80 +28,6 @@ class ChatRequest(TypedDict):
     question: str
     chat_history: Optional[List[Dict[str, str]]]
     # conversation_id: Optional[str]
-
-
-class BackupRetriever(BaseRetriever):
-    search: GoogleSearchAPIWrapper = GoogleSearchAPIWrapper()
-    num_search_results = 6
-
-    def clean_search_query(self, query: str) -> str:
-        # Some search tools (e.g., Google) will
-        # fail to return results if query has a
-        # leading digit: 1. "LangCh..."
-        # Check if the first character is a digit
-        if query[0].isdigit():
-            # Find the position of the first quote
-            first_quote_pos = query.find('"')
-            if first_quote_pos != -1:
-                # Extract the part of the string after the quote
-                query = query[first_quote_pos + 1 :]
-                # Remove the trailing quote if present
-                if query.endswith('"'):
-                    query = query[:-1]
-        return query.strip()
-
-    def search_tool(self, query: str, num_search_results: int = 1) -> List[dict]:
-        """Returns num_search_results pages per Google search."""
-        query_clean = self.clean_search_query(query)
-        result = self.search.results(query_clean, num_search_results)
-        return result
-
-    def _get_relevant_documents(
-        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
-    ):
-        # Get search questions
-        print("Generating questions for Google Search ...")
-
-        # Get urls
-        print("Searching for relevant urls...")
-        urls_to_look = []
-        search_results = self.search_tool(query, self.num_search_results)
-        print("Searching for relevant urls...")
-        print(f"Search results: {search_results}")
-        for res in search_results:
-            if res.get("link", None):
-                urls_to_look.append(res["link"])
-
-        print(search_results)
-        loader = AsyncHtmlLoader(urls_to_look)
-        html2text = Html2TextTransformer()
-        print("Indexing new urls...")
-        docs = loader.load()
-        docs = list(html2text.transform_documents(docs))
-        for i in range(len(docs)):
-            if search_results[i].get("title", None):
-                docs[i].metadata["title"] = search_results[i]["title"]
-        return docs
-
-
-def get_base_retriever():
-    if (os.environ.get("USE_BACKUP", False)):
-        return BackupRetriever()
-    return TavilySearchAPIRetriever(k=6, include_raw_content=True, include_images=True)
-
-
-def _get_retriever():
-    embeddings = OpenAIEmbeddings()
-    splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=20)
-    relevance_filter = EmbeddingsFilter(embeddings=embeddings, similarity_threshold=0.8)
-    pipeline_compressor = DocumentCompressorPipeline(
-        transformers=[splitter, relevance_filter]
-    )
-    base_retriever = get_base_retriever()
-    return ContextualCompressionRetriever(
-        base_compressor=pipeline_compressor, base_retriever=base_retriever
-    ).with_config(run_name="FinalSourceRetriever")
-
 
 def create_retriever_chain(
     llm: BaseLanguageModel, retriever: BaseRetriever
@@ -201,9 +117,7 @@ llm = ChatOpenAI(
     temperature=0,
 )
 
-retriever = _get_retriever()
-
-chain = create_chain(llm, retriever)
+chain = create_chain(llm, contextual_compression_retriever)
 
 add_routes(app, chain, path="/chat", input_type=ChatRequest)
 
