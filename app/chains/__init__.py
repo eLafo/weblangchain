@@ -9,8 +9,8 @@ from langchain.schema.retriever import BaseRetriever
 from langchain.schema.runnable import (Runnable, RunnableBranch,
                                        RunnableLambda, RunnableMap)
 from langchain.schema.output_parser import StrOutputParser
-from prompts import rephrase_template, chat_prompt_template
-from models import ChatRequest
+from ..prompts import rephrase_template, chat_prompt_template
+from ..models import ChatRequest
 
 def create_retriever_chain(
     llm: BaseLanguageModel, retriever: BaseRetriever

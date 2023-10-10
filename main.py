@@ -3,13 +3,13 @@ from langchain.chat_models import ChatOpenAI
 
 # Backup
 from langserve import add_routes
-from models import ChatRequest
 from app import api
-from retrievers import contextual_compression_retriever
+from app.models import ChatRequest
+from app.retrievers import contextual_compression_retriever
+from app.chains import create_chain
 
 # dotenv
 from dotenv import load_dotenv
-from chains import create_chain
 
 load_dotenv()
 

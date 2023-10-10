@@ -5,6 +5,7 @@ import langsmith
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from langsmith import Client
+
 client = Client()
 
 api = FastAPI()
