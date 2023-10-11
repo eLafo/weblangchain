@@ -7,7 +7,7 @@ from langserve import add_routes
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from langsmith import Client
-from app.chains import researcher
+from app.runnables import researcher
 from app.models import ChatRequest
 
 client = Client()

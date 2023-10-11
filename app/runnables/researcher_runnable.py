@@ -11,7 +11,7 @@ from langchain.schema.runnable import (Runnable,
 from langchain.schema.output_parser import StrOutputParser
 from ..prompts import chat_prompt_template
 from ..models import ChatRequest
-from .retriever_chain import create_retriever_chain
+from .retriever_runnable import create_retriever_chain
 
 
 def _serialize_history(request: ChatRequest):
