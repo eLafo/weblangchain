@@ -828,18 +828,18 @@ text-helpers = ["chardet (>=5.1.0,<6.0.0)"]
 
 [[package]]
 name = "langserve"
-version = "0.0.6"
+version = "0.0.7"
 description = ""
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
-    {file = "langserve-0.0.6-py3-none-any.whl", hash = "sha256:5b4e9807747bbed8f2b4d36181054ca7131b41b045b3aef7c0d34ce3443f4165"},
-    {file = "langserve-0.0.6.tar.gz", hash = "sha256:debc1e378ee3a4b3cb27c79dcdb9e093b974f20e6aacc26ce71089e9e64dab2f"},
+    {file = "langserve-0.0.7-py3-none-any.whl", hash = "sha256:6267c0d118f2d8b49e3b7bc9d2c8a7afabd9be975caf5664312b5cf7a7255b1b"},
+    {file = "langserve-0.0.7.tar.gz", hash = "sha256:4506b2289a9eb8815259d9fe9a2e24f5017bc9f8dd2b5c2bea70bf972cdf2fba"},
 ]
 
 [package.dependencies]
 httpx = ">=0.23.0"
-langchain = ">=0.0.307"
+langchain = ">=0.0.310"
 pydantic = ">=1,<2"
 
 [package.extras]
@@ -1774,4 +1774,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "715a32d01ad45a8fc3aa132eeb99ec058d0ccf963f1695b4cf5b70cce2c8d1ce"
+content-hash = "15481180bd5789afcf27f97b82b3c4f690514eaeaec02dd48f6e72b2402c7571"
