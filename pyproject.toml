@@ -19,6 +19,7 @@ sse-starlette = "^1.6.5"
 google-api-python-client = "^2.102.0"
 html2text = "^2020.1.16"
 python-dotenv = "^1.0.0"
+langchainhub = "^0.1.13"
 
 
 [tool.poetry.group.dev.dependencies]
