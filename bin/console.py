@@ -5,6 +5,8 @@ load_dotenv()
 
 import os
 import importlib
+import sys
+import glob
 
 def import_module(module_name, verbose=False):
     try:
@@ -17,10 +19,7 @@ def import_module(module_name, verbose=False):
             print(f"Module {module_name} not found.")
         return None
 
-def import_all(directory, verbose=False):
-    import os
-    import glob
-    
+def import_all(directory, verbose=False):    
     imported_modules = {}
 
     init_file = os.path.join(directory, '__init__.py')
@@ -51,5 +50,19 @@ else:
     verbose = False
 
 globals().update(import_all("app", verbose))
+
+def reload_module(module_name, verbose=False):
+    try:
+        if verbose:
+            print(f"Reloading {module_name}")
+        return importlib.reload(sys.modules[module_name])
+    except KeyError:
+        print(f"Error: Module {module_name} not found.")
+
+def reload(verbose: bool = verbose):
+    for module in list(sys.modules.keys()):
+        if module.startswith('app'):
+            reload_module(module, verbose)
+
 
 
