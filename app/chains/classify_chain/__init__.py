@@ -10,7 +10,7 @@ from app.llm import llm
 def _format_topics(topics: List[Topic]):
     return "\n".join(topic.to_xml() for topic in topics)
 
-prompt = load_prompt(os.path.dirname(__file__) + "/classification_chain_prompt.yaml")
+prompt = load_prompt(os.path.dirname(__file__) + "/classify_chain_prompt.yaml")
 chain = {
             "input": lambda x: x["input"],
             "topics": lambda x: _format_topics(x["topics"])
