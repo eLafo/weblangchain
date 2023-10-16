@@ -10,6 +10,7 @@ from langsmith import Client
 from app.chains import researcher
 from app.chatbots import researcher_chatbot
 from app.models import ChatRequest
+from app.agents import conversational
 
 client = Client()
 
@@ -23,7 +24,7 @@ api.add_middleware(
     expose_headers=["*"],
 )
 
-add_routes(api, researcher, path="/chat", input_type=ChatRequest)
+add_routes(api, conversational, path="/chat", input_type=ChatRequest)
 add_routes(api, researcher_chatbot, path="/researcher_chatbot", input_type=ChatRequest)
 
 # TODO: Update when async API is available
