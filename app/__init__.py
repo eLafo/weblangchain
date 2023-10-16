@@ -24,8 +24,8 @@ api.add_middleware(
     expose_headers=["*"],
 )
 
-add_routes(api, conversational, path="/chat", input_type=ChatRequest)
-add_routes(api, researcher_chatbot, path="/researcher_chatbot", input_type=ChatRequest)
+add_routes(api, researcher, path="/chat", input_type=ChatRequest)
+add_routes(api, conversational, path="/conversational", input_type=ChatRequest)
 
 # TODO: Update when async API is available
 async def _arun(func, *args, **kwargs):
