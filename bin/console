@@ -1,0 +1,3 @@
+#!/bin/bash
+ARGS="$@"
+ipython -i ./bin/console.py -- $ARGS

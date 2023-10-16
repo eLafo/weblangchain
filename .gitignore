@@ -139,7 +139,10 @@ vectorstore.pkl
 langchain.readthedocs.io/
 .vercel
 
-bin/
+bin/*
+!bin/console
+!bin/console.py
+!bin/.gitkeep
 pyvenv.cfg
 node_modules/
 .envrc
