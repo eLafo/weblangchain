@@ -1,0 +1,19 @@
+_type: prompt
+input_variables:
+  - topics
+  - input
+template: |
+  Given the user input below, classify it as either being about the following topics
+
+  <topics>
+  {topics}
+  </topics>
+
+  Do not respond with more than one word.
+  If no topic matches the question respond with "None"
+
+  <input>
+  {input}
+  </input>
+  
+  Classification:
