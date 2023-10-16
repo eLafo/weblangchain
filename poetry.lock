@@ -788,13 +788,13 @@ files = [
 
 [[package]]
 name = "langchain"
-version = "0.0.314"
+version = "0.0.315"
 description = "Building applications with LLMs through composability"
 optional = false
 python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "langchain-0.0.314-py3-none-any.whl", hash = "sha256:b799d4086086ca8f952d5f7b9dc3ebb3cf77b1957d657ee91739cd1689d71a5c"},
-    {file = "langchain-0.0.314.tar.gz", hash = "sha256:96dac382b79a88ee7ccc53aadc2818fd064475f229fde189483fee15558405c8"},
+    {file = "langchain-0.0.315-py3-none-any.whl", hash = "sha256:00bcbb5c2e4dfa4ce3aa2acff5465682741db9fa8f78929a70aa97241f50cadd"},
+    {file = "langchain-0.0.315.tar.gz", hash = "sha256:245c59a938b5ca26b2ae497e96c088b074b94fa3af915d1cfab5564fb36412ef"},
 ]
 
 [package.dependencies]
@@ -1803,4 +1803,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a6dd14134f76a34fb50996a3f2b84a5cdf95d6529a85d62cd98e2d89ea71d372"
+content-hash = "445cc86732931f2276810773194b8517eb04f9d0c28985c269eb3426b2425ce6"
