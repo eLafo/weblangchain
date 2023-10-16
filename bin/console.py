@@ -7,6 +7,7 @@ import os
 import importlib
 import sys
 import glob
+from langchain.globals import set_verbose, set_debug
 
 def import_module(module_name, verbose=False):
     try:
