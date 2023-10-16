@@ -1,12 +1,12 @@
 _type: prompt
 input_variables:
   - chat_history
-  - question
+  - input
 template: |
   Given the following conversation and a follow up question, rephrase the follow up \
   question to be a standalone question.
 
   Chat History:
   {chat_history}
-  Follow Up Input: {question}
-  Standalone Question:
+  Follow Up Input: {input}
+  Standalone Input:

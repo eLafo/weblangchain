@@ -1,5 +1,5 @@
 from .researcher_chain import create_researcher_chain
-from .rephrase_question_chain import chain as rephrase_question
+from .rephrase_input_chain import chain as rephrase_input
 from .research_chain import chain as research
 from .classify_chain import chain as classify
 from ..llm import llm

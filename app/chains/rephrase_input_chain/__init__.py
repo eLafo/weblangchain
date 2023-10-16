@@ -6,7 +6,7 @@ from langchain.schema.runnable import RunnableBranch, RunnableLambda
 
 from app.llm import llm
 
-prompt = load_prompt(os.path.dirname(__file__) + "/rephrase_question_prompt.yaml")
+prompt = load_prompt(os.path.dirname(__file__) + "/rephrase_input_prompt.yaml")
 
 branch_chain = RunnableBranch(
     (
@@ -14,11 +14,11 @@ branch_chain = RunnableBranch(
         ( prompt | llm | StrOutputParser()).with_config(run_name="SummarizeQuestionAndHistoryChat")
     ),
     (
-        RunnableLambda(itemgetter("question")).with_config(run_name="ReturnRawQuestion")
+        RunnableLambda(itemgetter("input")).with_config(run_name="ReturnRawQuestion")
     )
 ).with_config(run_name="BranchDependingOnChatHistory")
 
 chain = {
-    "question": RunnableLambda(itemgetter("question")),
+    "input": RunnableLambda(itemgetter("input")),
     "chat_history": (RunnableLambda(itemgetter("chat_history")))
 } | branch_chain | StrOutputParser()
