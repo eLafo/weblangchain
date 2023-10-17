@@ -21,6 +21,8 @@ html2text = "^2020.1.16"
 python-dotenv = "^1.0.0"
 langchainhub = "^0.1.13"
 deepmerge = "^1.1.0"
+invoke = "^2.2.0"
+psycopg2 = "^2.9.9"
 
 
 [tool.poetry.group.dev.dependencies]
