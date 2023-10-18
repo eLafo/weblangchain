@@ -45,7 +45,11 @@ class Database():
         return self.execute(operation)
 
     def create_database(self):
-        self.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(f"{self.database_name}")))
+        def operation(cursor, connection):
+            self.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(f"{self.database_name}")))
+            self.execute(sql.SQL("CREATE EXTENSION vector").format())
+            
+        return self.execute(operation)
 
     def drop_database(self):
         self.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier(f"{self.database_name}")))
