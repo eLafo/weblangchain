@@ -63,7 +63,7 @@ class Database():
         
     def _is_pgvector_installed(self):
         def operation(cursor, connection):
-            cursor.execute("SELECT 1 FROM pg_available_extensions WHERE name = 'pgvector' AND installed_version IS NOT NULL")
+            cursor.execute("SELECT 1 FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NOT NULL")
             return cursor.fetchone() is not None
         
         return self.execute(operation)
