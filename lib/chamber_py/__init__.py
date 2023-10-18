@@ -3,6 +3,7 @@ import yaml
 import glob
 from pathlib import Path
 from deepmerge import always_merger
+from dotenv import load_dotenv
 
 class Chamber:
     settings = {}
@@ -20,6 +21,7 @@ class Chamber:
             
     @classmethod
     def _override_with_env(cls):
+        load_dotenv()
         def _update_with_env(d, keys):
             for k, v in d.items():
                 if isinstance(v, dict):
