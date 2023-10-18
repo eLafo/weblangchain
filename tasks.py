@@ -57,11 +57,11 @@ class Database():
     def drop_database(self):
         return self.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier(f"{self.database}")))
         
-    def _install_pgvector(self):
+    def install_pgvector(self):
         print("Installing pgvector extension")
         return self.execute(sql.SQL("CREATE EXTENSION IF NOT EXISTS vector").format(sql.Identifier(f"{self.database}")))
         
-    def _is_pgvector_installed(self):
+    def is_pgvector_installed(self):
         def operation(cursor, connection):
             cursor.execute("SELECT 1 FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NOT NULL")
             return cursor.fetchone() is not None
@@ -70,7 +70,7 @@ class Database():
     
     def check(self):
         database_status = self.exists_database()
-        pgvector_status = self._is_pgvector_installed()
+        pgvector_status = self.is_pgvector_installed()
 
         if database_status:
             print(f"✅ Database created")
@@ -94,7 +94,7 @@ def db_create(_ctx):
     else:
         db.create_database()
         print("Database created")
-    db._install_pgvector()
+    db.install_pgvector()
 
 @task
 def db_drop(_ctx):
@@ -107,3 +107,8 @@ def db_check(_ctx):
         exit(0)
     else:
         exit(1)
+        
+@task
+def db_install_pgvector(_ctx):
+    db.install_pgvector()
+
