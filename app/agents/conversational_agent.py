@@ -3,12 +3,14 @@ from langchain.memory import ConversationBufferMemory
 from langchain.schema.runnable import RunnablePassthrough, RunnableLambda, RunnableBranch, RunnableMap
 from langchain.schema.output_parser import StrOutputParser
 from langchain.agents import AgentExecutor
+from langchain.memory import VectorStoreRetrieverMemory
+from langchain.embeddings.openai import OpenAIEmbeddings
 from app.llm import llm
 from app.chains import classify, research, rephrase_input
 from app.models import Topic
+from lib.chamber_py import Chamber
+from langchain.vectorstores.pgvector import PGVector
 
-tools = []
-memory = ConversationBufferMemory(memory_key="chat_history")
 topics = [
     Topic(name="research",
           description="Questions about some topic that would benefit from some kind of research")
@@ -17,13 +19,32 @@ topics = [
 _route = RunnablePassthrough.assign(topics=lambda inputs: topics) | RunnablePassthrough.assign(topic=classify) | RunnableBranch(
     (lambda x: "research" in x["topic"].lower(),
      RunnableLambda(lambda x: x["input"]) | research),
-    (llm | StrOutputParser)
+    (RunnableLambda(lambda x: x["input"]) | llm | StrOutputParser())
 )
 
+def create_memory(conversation_id):
+    CONNECTION_STRING = PGVector.connection_string_from_db_params(**Chamber()["pgvector"], **Chamber()["database"]["connection"], database=Chamber()["database"]["name"])
+    vectorstore = PGVector(
+        collection_name=conversation_id,
+        connection_string=CONNECTION_STRING,
+        embedding_function=OpenAIEmbeddings()
+    )
+    retriever = vectorstore.as_retriever()
+    memory = VectorStoreRetrieverMemory(retriever=retriever)
+    
+    return memory
+
 agent = {
-    "input": RunnablePassthrough(),
-    "memory": lambda x: memory,
-    "chat_history": (RunnableLambda(memory.load_memory_variables) | itemgetter("chat_history")),
-} | RunnablePassthrough.assign(original_input=lambda x: x["input"], input=rephrase_input) | RunnablePassthrough.assign(output=_route) | RunnablePassthrough.assign(memory=lambda x: x["memory"].save_context({"input": x["original_input"]}, {"output": x["output"]}))
-agent_executor = AgentExecutor(
-    agent=agent, tools=tools, verbose=True, memory=memory, handle_parsing_errors=True)
+    "input": lambda x: x["input"],
+    "conversation_id": lambda x: x["conversation_id"]
+} | RunnablePassthrough.assign(
+        memory = RunnableLambda(lambda x: create_memory(x["conversation_id"]))
+) | RunnablePassthrough.assign(
+        chat_history = RunnableLambda(lambda x: x["memory"].load_memory_variables({"prompt": x["input"]}))
+) | RunnablePassthrough.assign(
+        original_input=lambda x: x["input"], input=rephrase_input
+) | RunnablePassthrough.assign(
+        output=_route
+) | RunnablePassthrough.assign(
+        memory=lambda x: x["memory"].save_context({"input": x["original_input"]}, {"output": x["output"]})
+)

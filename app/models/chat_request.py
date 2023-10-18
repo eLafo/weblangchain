@@ -4,4 +4,4 @@ from typing_extensions import TypedDict
 class ChatRequest(TypedDict):
     question: str
     chat_history: Optional[List[Dict[str, str]]]
-    # conversation_id: Optional[str]
+    conversation_id: Optional[str]

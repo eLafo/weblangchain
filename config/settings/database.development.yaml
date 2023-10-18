@@ -1,7 +1,0 @@
-database:
-  connection:
-    user: postgres
-    host: 0.0.0.0
-    password: postgres
-  # database: postgres
-  name: entaina_development
