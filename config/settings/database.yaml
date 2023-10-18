@@ -1,7 +1,6 @@
 database:
-  connection:
-    user: postgres
-    host: 0.0.0.0
-    password: postgres
-    port: 5432
-  name: entaina_development
+  user: postgres
+  host: 0.0.0.0
+  password: postgres
+  port: 5432
+  database: entaina_development

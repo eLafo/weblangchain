@@ -18,12 +18,14 @@ topics = [
 
 _route = RunnablePassthrough.assign(topics=lambda inputs: topics) | RunnablePassthrough.assign(topic=classify) | RunnableBranch(
     (lambda x: "research" in x["topic"].lower(),
-     RunnableLambda(lambda x: x["input"]) | research),
+    research),
     (RunnableLambda(lambda x: x["input"]) | llm | StrOutputParser())
 )
 
 def create_memory(conversation_id):
-    CONNECTION_STRING = PGVector.connection_string_from_db_params(**Chamber()["pgvector"], **Chamber()["database"]["connection"], database=Chamber()["database"]["name"])
+    db_settings = {k: Chamber()["database"][k] for k in ('user', 'host', 'password', 'port', 'database')}
+
+    CONNECTION_STRING = PGVector.connection_string_from_db_params(**Chamber()["pgvector"], **db_settings)
     vectorstore = PGVector(
         collection_name=conversation_id,
         connection_string=CONNECTION_STRING,

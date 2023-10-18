@@ -10,11 +10,14 @@ Chamber.load()
 class Database():
     connection: connection = None
     cursor: cursor = None
-    database_name = None
-    autcommit = True
+    database = None
+    autocommit = True
     
-    def _connect(self):
-        self.connection = psycopg2.connect(**Chamber()["database"]["connection"])
+    def _connect(self, default_database: bool = False):
+        db_settings = {k: Chamber()["database"][k] for k in ('user', 'host', 'password', 'port')}
+        if not default_database:
+            db_settings.update({'database': self.database})
+        self.connection = psycopg2.connect(**db_settings)
         self.connection.autocommit = self.autocommit
         self.cursor = self.connection.cursor()
 
@@ -24,10 +27,10 @@ class Database():
 
     def __init__(self, autocommit: bool = True):
         self.autocommit = autocommit
-        self.database_name = Chamber()["database"]["name"]
+        self.database = Chamber()["database"]["database"]
 
-    def execute(self, operation, *args):
-        self._connect()
+    def execute(self, operation, default_database: bool = False, *args):
+        self._connect(default_database=default_database)
         if callable(operation):
             result = operation(cursor=self.cursor, connection=self.connection, *args)
         else:
@@ -37,31 +40,26 @@ class Database():
 
     def exists_database(self):
         def operation(cursor, connection):
-            cursor.execute(f"SELECT 1 FROM pg_catalog.pg_database WHERE datname = '{self.database_name}'")
+            cursor.execute(f"SELECT 1 FROM pg_catalog.pg_database WHERE datname = '{self.database}'")
             return cursor.fetchone() is not None
         
-        return self.execute(operation)
+        return self.execute(operation, default_database=True)
 
     def create_database(self):
         def operation(cursor, connection):
             try:
-                cursor.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(f"{self.database_name}")))
-                if self._is_pgvector_installed():
-                    print("pgvector extension already installed")
-                else:
-                    self._install_pgvector()
-                cursor.execute(sql.SQL("CREATE EXTENSION IF NOT EXISTS vector").format())
+                cursor.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(f"{self.database}")))
             except Exception as e:
                 self.drop_database()
                 raise e
-        return self.execute(operation)
+        return self.execute(operation, default_database=True)
 
     def drop_database(self):
-        return self.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier(f"{self.database_name}")))
+        return self.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier(f"{self.database}")))
         
     def _install_pgvector(self):
         print("Installing pgvector extension")
-        return self.execute(sql.SQL("CREATE EXTENSION vector").format())
+        return self.execute(sql.SQL("CREATE EXTENSION IF NOT EXISTS vector").format(sql.Identifier(f"{self.database}")))
         
     def _is_pgvector_installed(self):
         def operation(cursor, connection):
@@ -96,7 +94,7 @@ def db_create(_ctx):
     else:
         db.create_database()
         print("Database created")
-
+    db._install_pgvector()
 
 @task
 def db_drop(_ctx):

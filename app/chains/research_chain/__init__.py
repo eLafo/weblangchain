@@ -21,6 +21,6 @@ def _format_docs(docs: Sequence[Document]) -> str:
 chain = {
     "input": lambda x: x["input"]
 } | RunnableMap(
-    question = RunnableLambda(itemgetter("question")),
-    context=(RunnableLambda(itemgetter("question")) | contextual_compression_retriever | _format_docs)
+    question = RunnableLambda(itemgetter("input")),
+    context=(RunnableLambda(itemgetter("input")) | contextual_compression_retriever | _format_docs)
 ) | (system_prompt | llm | StrOutputParser())
