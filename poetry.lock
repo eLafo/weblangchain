@@ -1092,6 +1092,19 @@ files = [
 ]
 
 [[package]]
+name = "pgvector"
+version = "0.2.3"
+description = "pgvector support for Python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pgvector-0.2.3-py2.py3-none-any.whl", hash = "sha256:9d53dc01138ecc7c9aca64e4680cfa9edf4c38f9cb8ed7098317871fdd211824"},
+]
+
+[package.dependencies]
+numpy = "*"
+
+[[package]]
 name = "platformdirs"
 version = "3.11.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
@@ -1853,4 +1866,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a3ae2090aa58a1f1c866f1f6ee482810e11e91ef1b58ffbd03701127912bad60"
+content-hash = "f1ddf505074225f1cb2d91aea0d602370d29337ebe9e94f3a8162e01a0f2ac7e"

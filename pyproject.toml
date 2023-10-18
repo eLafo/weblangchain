@@ -23,6 +23,7 @@ langchainhub = "^0.1.13"
 deepmerge = "^1.1.0"
 invoke = "^2.2.0"
 psycopg2 = "^2.9.9"
+pgvector = "^0.2.3"
 
 
 [tool.poetry.group.dev.dependencies]
