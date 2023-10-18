@@ -20,7 +20,7 @@ def import_module(module_name, verbose=False):
             print(f"Module {module_name} not found.")
         return None
 
-def import_all(directory, verbose=False):    
+def import_directory(directory, verbose=False, prefix=""):    
     imported_modules = {}
 
     init_file = os.path.join(directory, '__init__.py')
@@ -35,7 +35,7 @@ def import_all(directory, verbose=False):
             
     for subdirectory in os.listdir(directory):
         if os.path.isdir(os.path.join(directory, subdirectory)):
-            imported_modules.update(import_all(os.path.join(directory, subdirectory), verbose))
+            imported_modules.update(import_directory(os.path.join(directory, subdirectory), verbose))
 
     return imported_modules
 
@@ -50,7 +50,18 @@ if args.verbose:
 else:
     verbose = False
 
-globals().update(import_all("app", verbose))
+def import_all():
+    # LIBS = [name for name in os.listdir('lib') if os.path.isdir(os.path.join('lib', name))]
+
+    DIRECTORIES = [
+        "lib",
+        "app"
+    ]
+    
+    for directory in DIRECTORIES:
+        globals().update(import_directory(directory, verbose))
+    
+import_all()
 
 def reload_module(module_name, verbose=False):
     try:
@@ -65,5 +76,5 @@ def reload(verbose: bool = verbose):
         if module.startswith('app'):
             reload_module(module, verbose)
 
-
-
+from lib.chamber_py import Chamber
+Chamber.load()

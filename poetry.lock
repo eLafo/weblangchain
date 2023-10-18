@@ -380,6 +380,17 @@ marshmallow = ">=3.18.0,<4.0.0"
 typing-inspect = ">=0.4.0,<1"
 
 [[package]]
+name = "deepmerge"
+version = "1.1.0"
+description = "a toolset to deeply merge python dictionaries."
+optional = false
+python-versions = "*"
+files = [
+    {file = "deepmerge-1.1.0-py3-none-any.whl", hash = "sha256:59e6ef80b77dc52af3882a1ea78da22bcfc91ae9cdabc0c80729049fe295ff8b"},
+    {file = "deepmerge-1.1.0.tar.gz", hash = "sha256:4c27a0db5de285e1a7ceac7dbc1531deaa556b627dea4900c8244581ecdfea2d"},
+]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.1.3"
 description = "Backport of PEP 654 (exception groups)"
@@ -1811,4 +1822,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "32d07c325471adf79955bc790550b916e56cd954a4c62aa5d42e6901ad01d825"
+content-hash = "a53aa85efe080e9f2b438fdca74ccc0b59df539f65fc5b92317d51fa2d02d206"

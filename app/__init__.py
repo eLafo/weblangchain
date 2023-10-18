@@ -11,8 +11,10 @@ from app.chains import researcher
 from app.chatbots import researcher_chatbot
 from app.models import ChatRequest
 from app.agents import conversational
+from lib.chamber_py import Chamber
+Chamber.load()
 
-client = Client()
+client = Client(api_key=Chamber()["langchain"]["api_key"])
 
 api = FastAPI()
 api.add_middleware(
