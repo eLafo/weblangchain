@@ -49,4 +49,5 @@ agent = {
         output=_route
 ) | RunnablePassthrough.assign(
         memory=lambda x: x["memory"].save_context({"input": x["original_input"]}, {"output": x["output"]})
-)
+) | RunnableLambda(lambda x: x["output"])
+

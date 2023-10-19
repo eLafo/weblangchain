@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from langsmith import Client
 from app.chains import researcher
 from app.chatbots import researcher_chatbot
-from app.models import ChatRequest
+from app.models import ChatRequest, ConversationRequest
 from app.agents import conversational
 from lib.chamber_py import Chamber
 Chamber.load()
@@ -27,7 +27,7 @@ api.add_middleware(
 )
 
 add_routes(api, researcher, path="/chat", input_type=ChatRequest)
-add_routes(api, conversational, path="/conversational", input_type=ChatRequest)
+add_routes(api, conversational, path="/conversational", input_type=ConversationRequest)
 
 # TODO: Update when async API is available
 async def _arun(func, *args, **kwargs):
